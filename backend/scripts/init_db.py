@@ -36,11 +36,29 @@ with app.app_context():
       name = 'customer_01'
     )
 
-
-
   try:
     db.session.commit()
     print('✅ Initial roles created successfully.')
   except:
     db.session.rollback()
     print('❌ Error occurred while creating initial roles.')
+
+
+  admin01 = datastore.find_user(email = 'admin@study')
+  manager01 = datastore.find_user(email = 'manager@study')
+  cust = datastore.find_user(email = 'customer@study')
+
+  admin_role = datastore.find_role('admin')
+  manager_role = datastore.find_role('manager')
+  customer_role = datastore.find_role('customer')
+
+  datastore.add_role_to_user(admin01, admin_role)
+  datastore.add_role_to_user(manager01, manager_role)
+  datastore.add_role_to_user(cust, customer_role)
+
+  try:
+    db.session.commit()
+    print('✅ Initial users assigned to roles.')
+  except:
+    db.session.rollback()
+    print('❌ Error occurred while assigning roles to initial users.')
